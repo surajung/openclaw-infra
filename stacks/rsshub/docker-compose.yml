@@ -1,0 +1,20 @@
+name: rsshub-test
+
+services:
+  rsshub:
+    image: diygod/rsshub:latest
+    container_name: rsshub-test
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1200:1200"
+    environment:
+      NODE_ENV: production
+      CACHE_TYPE: memory
+      LISTEN_INADDR_ANY: "1"
+      TZ: Asia/Seoul
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:1200/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s

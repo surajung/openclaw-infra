@@ -1,0 +1,30 @@
+name: example-stack
+
+services:
+  app:
+    image: example/image:latest
+    container_name: example-app
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9999:9999"
+    environment:
+      TZ: Asia/Seoul
+      # APP_ENV: production
+      # APP_PORT: 9999
+    # env_file:
+    #   - .env
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:9999/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    # volumes:
+    #   - ./data:/data
+
+# 사용 전 체크리스트
+# - name / container_name 수정
+# - 포트 수정
+# - healthcheck 경로 수정
+# - 필요한 경우 env_file 활성화
+# - 필요한 경우 volumes 활성화
